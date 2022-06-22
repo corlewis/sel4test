@@ -742,7 +742,7 @@ static int test_fault(env_t env, int fault_type, bool inter_as)
 
                 set_helper_priority(env, &handler_thread, 101);
                 error = api_tcb_set_space(get_helper_tcb(&faulter_thread),
-                                          fault_ep,
+                                          fault_ep, seL4_NilData,
                                           faulter_cspace,
                                           api_make_guard_skip_word(seL4_WordBits - env->cspace_size_bits),
                                           faulter_vspace, seL4_NilData);
@@ -1074,8 +1074,8 @@ static int test_vm_enter_non_vm(env_t env)
     create_helper_thread(env, &helper);
 
     seL4_Word guard = seL4_WordBits - env->cspace_size_bits;
-    err = api_tcb_set_space(get_helper_tcb(&helper), fault_ep, env->cspace_root,
-                            api_make_guard_skip_word(guard),
+    err = api_tcb_set_space(get_helper_tcb(&helper), fault_ep,  seL4_NilData,
+                            env->cspace_root, api_make_guard_skip_word(guard),
                             env->page_directory, seL4_NilData);
     test_eq(err, 0);
 
